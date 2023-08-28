@@ -15,7 +15,7 @@ class Environment:
         self.packages = packages
     
     def display(self, agent_pos, packages_delivered, path_taken, time):
-        plt.clf()  # Clear previous plot
+        #plt.clf()  # Clear previous plot
         for row in range(self.grid_size):
             for col in range(self.grid_size):
                 if (row, col) in self.obstacles:

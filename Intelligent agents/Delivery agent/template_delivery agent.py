@@ -42,8 +42,8 @@ def main():
             # Your code for handling path constraints goes here
 
         if valid_moves:
-            agent_pos = random.choice(valid_moves)
-            path_taken.append(agent_pos)
+            
+            #Choose the next move and update the path
 
         time += 1
 
