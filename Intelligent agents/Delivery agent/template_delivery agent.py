@@ -42,7 +42,7 @@ def main():
             # Your code for handling path constraints goes here
 
         if valid_moves:
-            
+
             #Choose the next move and update the path
 
         time += 1
