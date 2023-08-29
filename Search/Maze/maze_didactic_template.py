@@ -37,6 +37,9 @@ def frontier_is_empty(frontier):
 def remove_from_stack_frontier(frontier):
     pass
 
+def remove_from_queue_frontier(frontier):
+    pass
+
 def load_maze(filename):
     # Read the maze from a file and return its structure, start, and end positions
     with open(filename) as f:
