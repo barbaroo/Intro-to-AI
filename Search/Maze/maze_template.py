@@ -32,6 +32,7 @@ class QueueFrontier(StackFrontier):
         # Your code here
 
 class Maze():
+    
     def __init__(self, filename):
 
         # Read file and set height and width of maze
