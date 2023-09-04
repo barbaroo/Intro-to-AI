@@ -1,22 +1,9 @@
-"""
-Tic Tac Toe Player
-"""
-
 import copy
 
-"""
-copy is imported to clone the board, which ensures actions taken don't modify the original board.
-"""
-
-
-"""
-EMPTY represents an empty spot on the board.
-"""
-
+# Constants
 X = "X"
 O = "O"
 EMPTY = None
-
 
 
 def initial_state():
@@ -24,106 +11,92 @@ def initial_state():
             [EMPTY, EMPTY, EMPTY],
             [EMPTY, EMPTY, EMPTY]]
 
-def player(board):
-    """
-    Returns player who has the next turn on a board.
-    """
-    # Hint: Count all the empty cells in the board to determine the player.
-    empty_cells = sum(row.count(EMPTY) for row in board)
-    # Use a conditional expression to determine the player.
-    return ___ if empty_cells % 2 == 0 else ___
 
+def player(board):
+    if sum(row.count(EMPTY) for row in board) % 2 == 0:
+        return O
+    else:
+        return X
 
 def actions(board):
-    """
-    Returns set of all possible actions (i, j) available on the board.
-    """
-    # Hint: Go through every cell in the board.
     possible_actions = set()
     for i in range(3):
         for j in range(3):
-            if ___:
+            if board[i][j] == EMPTY:
                 possible_actions.add((i, j))
     return possible_actions
 
-
 def result(board, action):
-    """
-    Returns the board that results from making move (i, j) on the board.
-    """
-    # Hint: Use the action's indices to update the board after creating a copy.
+    i, j = action
+    if board[i][j] is not EMPTY:
+        raise ValueError("Invalid action")
     new_board = copy.deepcopy(board)
-    new_board[___][___] = ___
+    new_board[i][j] = player(board)
     return new_board
 
-
 def winner(board):
-    """
-    Returns the winner of the game, if there is one.
-    """
-    # Hint: Check all rows, columns, and both diagonals.
     for row in board:
-        if ___ == ___ == ___ and ___ is not EMPTY:
-            return ___
-    # (Repeat similar logic for columns and diagonals)
-
+        if row[0] == row[1] == row[2] and row[0] is not EMPTY:
+            return row[0]
+    for col in range(3):
+        if board[0][col] == board[1][col] == board[2][col] and board[0][col] is not EMPTY:
+            return board[0][col]
+    if board[0][0] == board[1][1] == board[2][2] and board[0][0] is not EMPTY:
+        return board[0][0]
+    if board[0][2] == board[1][1] == board[2][0] and board[0][2] is not EMPTY:
+        return board[0][2]
+    return None
 
 def terminal(board):
-    """
-    Returns True if game is over, False otherwise.
-    """
-    # Hint: The game ends if someone has won or if there are no empty spaces left.
-    return ___ is not None or not any(EMPTY in row for row in board)
-
+    return winner(board) is not None or all(all(cell is not EMPTY for cell in row) for row in board)
 
 def utility(board):
-    """
-    Returns 1 if X has won the game, -1 if O has won, 0 otherwise.
-    """
-    # Hint: Use a series of if...elif...else conditions to check the board's state.
-    ___
-    ___
-    ___
-
+    winner_player = winner(board)
+    if winner_player == X:
+        return 1
+    elif winner_player == O:
+        return -1
+    else:
+        return 0
 
 def minimax(board):
-    """
-    Returns the optimal action for the current player on the board.
-    """
-    # Hint: Use the max_value and min_value helper functions to get the best move.
-    best_move = None
-    if player(board) == X:
-        max_val = -float("inf")
-        for action in actions(board):
-            # Use min_value to get the utility of the resulting board.
-            value = ___
-            # Compare and store the best move.
-            ___
-    # (Repeat similar logic for player O)
-    return best_move
+    if terminal(board):
+        return None
 
+    current_player = player(board)
+    if current_player == X:
+        max_val = -float("inf")
+        best_move = None
+        for action in actions(board):
+            value = min_value(result(board, action))
+            if value > max_val:
+                max_val = value
+                best_move = action
+        return best_move
+    else:
+        min_val = float("inf")
+        best_move = None
+        for action in actions(board):
+            value = max_value(result(board, action))
+            if value < min_val:
+                min_val = value
+                best_move = action
+        return best_move
 
 def max_value(board):
-    """
-    Returns the max value for the maximizing player.
-    Remember the recursion needs to stop for certain conditions....
-    """
-    # Initialize the value and then update based on results of each possible action.
+    if terminal(board):
+        return utility(board)
     v = -float("inf")
     for action in actions(board):
-        v = max(v, ___(result(board, action)))
+        v = max(v, min_value(result(board, action)))
     return v
 
-
 def min_value(board):
-    """
-    This function calculates the min value for the minimizing player.
-    Remember the recursion needs to stop for certain conditions....
-    """
-    # Similar to max_value but in reverse.
+    if terminal(board):
+        return utility(board)
     v = float("inf")
     for action in actions(board):
-        v = min(v, ___(result(board, action)))
+        v = min(v, max_value(result(board, action)))
     return v
 
 
@@ -131,3 +104,5 @@ def min_value(board):
 if __name__ == "__main__":
     board = initial_state()
     print(minimax(board))
+
+
