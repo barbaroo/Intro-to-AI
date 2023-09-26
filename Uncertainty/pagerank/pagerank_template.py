@@ -60,12 +60,12 @@ def transition_model(corpus, page, damping_factor):
     """
     # Store probability of each link
     prob_distribution = {}
-    # Pages to which given page has links
-    potential_pages = corpus[page]
+    # Pages to which given page has links: get the potential pages from the corpus dictionary
+    potential_pages = ...
 
     # If page has no outgoing links, return a probability distribution that chooses randomly between all pages
     if len(potential_pages) == 0:
-        prob = 1 / len(___)
+        prob = ...
         for corpus_page in corpus:
             ___[corpus_page] = ___
 
@@ -79,14 +79,15 @@ def transition_model(corpus, page, damping_factor):
 
     # Fill out probability distribution with damping probability
     for potential_page in potential_pages:
-        prob_distribution[potential_page] = ___
+        ...
 
-    # Fill out probability distribution with random damping probability
+    # Fill out probability distribution with random damping probability.
+     
     for corpus_page in corpus:
         if corpus_page in ___:
-            prob_distribution[corpus_page] += damping_prob_random
+            prob_distribution[corpus_page] += ___
         else:
-            prob_distribution[corpus_page] = damping_prob_random
+            prob_distribution[corpus_page] = ___
 
     return prob_distribution
 
@@ -103,8 +104,8 @@ def sample_pagerank(corpus, damping_factor, n):
     # Dictionary to store pagerank
     pagerank = {}
 
-    # Choosing page at random
-    next_page = random.choice(list(corpus))
+    # Choosing page at random from the list of the corpus. Hint: use the random library!
+    next_page = ...
 
     # Iterating over the given number of samples
     for i in range(n - 1):
@@ -122,7 +123,7 @@ def sample_pagerank(corpus, damping_factor, n):
 
     # Divide the number of times surfer landed at one page by the sample size
     for page in pagerank:
-        pagerank[page] = pagerank[page] / ___
+        pagerank[page] = ___ / ___
 
     return ___
 
@@ -168,7 +169,7 @@ def iterate_pagerank(corpus, damping_factor):
                     probability += 1 / len(___)
 
             # Calculate the rest of the formula given in task background for iterative algorithm
-            pagerank[page] = (1 - ___) / len(corpus) + (___ * probability)
+            pagerank[page] = ...
 
             # Store the difference between previous pagerank and current to know when to stop
             pagerank_diff[page] = abs(pagerank_copy[page] - ___[page])
@@ -177,7 +178,7 @@ def iterate_pagerank(corpus, damping_factor):
         # Check if we can leave the while loop by making sure if there is no gap of more than 0.001 between
         # current pagerank and previous pagerank
         converged = True
-        for page in pagerank_diff:
+        for ...:
             if pagerank_diff[page] > 0.001:
                 converged = ___
 
@@ -189,7 +190,7 @@ def iterate_pagerank(corpus, damping_factor):
         sum_pagerank += pagerank[k]
 
     for k in pagerank:
-        pagerank[k] = pagerank[k] / ___
+        ...
 
     return pagerank
 
